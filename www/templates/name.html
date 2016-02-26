@@ -1,9 +1,11 @@
-<ion-view title="Name">
+<ion-view title="Name" ng-controller="IdCtrl as ic">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <form class="list">
-            <label class="item item-input" name="UserName">
-                <span class="input-label">UserName</span><textarea placeholder=""> </textarea>
+            <label class="item item-input" name="id">
+                <span class="input-label">User ID</span>
+                <textarea placeholder="" ng-model="ic.id" ng-change="ic.updateId()"> {{ic.id}} </textarea>
             </label>
+            <h1>{{ic.id}}</h1>
         </form>
     </ion-content>
 </ion-view>
