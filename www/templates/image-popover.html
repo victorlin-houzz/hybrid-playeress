@@ -1,0 +1,13 @@
+<ion-view title="image-pop" ng-controller="meCtrl as meC">
+    <div class="modal image-modal transparent">
+        <ion-slide-box on-slide-changed="slideChanged(index)" show-pager="true" active-slide="activeSlide">
+            <ion-slide ng-repeat="image in images">
+                <img ng-src="data:image/jpeg;base64,{{images[activeSlide].image}}" class="fullscreen-image"  ng-click="closeModal()"/>
+            </ion-slide>
+        </ion-slide-box>
+        <div class="button-bar">
+            <button class="button button-positive  " ng-click="meC.setProfile(images[activeSlide].image)">設為大頭照</button>
+            <button class="button button-assertive  " ng-click="meC.deleteImage(activeSlide)">刪除照片</button>
+        </div>
+    </div>
+</ion-view>

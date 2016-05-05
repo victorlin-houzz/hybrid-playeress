@@ -1,24 +1,20 @@
-<ion-view title="Search">
+<ion-view title="搜尋">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <form class="list"></form>
+        <!--<ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()">
+        </ion-refresher>-->
+        <ion-nav-buttons side="right">
+            <button class="button button-icon icon ion-camera" ng-click="upload()"></button>
+        </ion-nav-buttons>
+        <ion-list  ng-model="users" ng-repeat="user in users">
+            <ion-item class="item-thumbnail-left" href="#/user/{{user.uid}}">
+                <img ng-src="{{user.profileImage}}" width="100%">
+                <h2>{{user.id}}</h2>
+                <p>{{user.age}}</p>
+            </ion-item>
+        </ion-list>
+        <ion-infinite-scroll on-infinite="loadMore()" distance="1%">
+        </ion-infinite-scroll>
     </ion-content>
-    <ion-nav-buttons side="right">
-        <button class="button button-icon icon ion-camera" ng-click="upload()"></button>
-    </ion-nav-buttons>
-    <ion-content>
-        <div class="row" ng-repeat="image in images" ng-if="$index % 4 === 0">
-            <div class="col col-25" ng-if="$index < images.length">
-                <img ng-src="data:image/jpeg;base64,{{images[$index].image}}" width="100%" />
-            </div>
-            <div class="col col-25" ng-if="$index + 1 < images.length">
-                <img ng-src="data:image/jpeg;base64,{{images[$index + 1].image}}" width="100%" />
-            </div>
-            <div class="col col-25" ng-if="$index + 2 < images.length">
-                <img ng-src="data:image/jpeg;base64,{{images[$index + 2].image}}" width="100%" />
-            </div>
-            <div class="col col-25" ng-if="$index + 3 < images.length">
-                <img ng-src="data:image/jpeg;base64,{{images[$index + 3].image}}" width="100%" />
-            </div>
-        </div>
-    </ion-content>
+
+
 </ion-view>

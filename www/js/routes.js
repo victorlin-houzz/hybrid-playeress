@@ -1,13 +1,16 @@
 angular.module('app.routes', ['app.factories'])
-    .run(function ($rootScope, $state, Authorization,$ionicLoading,$timeout) {
+    .run(function($rootScope, $state, Authorization, $ionicLoading, $timeout) {
         // Listen to '$locationChangeSuccess', not '$stateChangeStart'
-        $rootScope.$on('$locationChangeSuccess', function () {
-            console.log("Changing state to: " + $state.current.name + "  " + Authorization.isAuthenticated);
-            if (!Authorization.isAuthenticated) {
+        $rootScope.$on('$locationChangeSuccess', function() {
+            // any time auth status updates, add the user data to scope
+            console.log("Changing state to: " + $state.current.name + "  " + Authorization.isAuthenticated + "; auth: " + $rootScope.authData);
+            if (!$rootScope.authData) {
+                console.log("going back to login page");
                 // $state.go('login');
             }
         })
-        $rootScope.showLoading = function (msg) {
+        $rootScope.showLoading = function(msg) {
+            console.log("ShowLoading...");
             $ionicLoading.show({
                 template: msg || 'Loading',
                 animation: 'fade-in',
@@ -15,24 +18,25 @@ angular.module('app.routes', ['app.factories'])
                 maxWidth: 200,
                 showDelay: 0
             });
-            $timeout(function () {
+            $timeout(function() {
                 $rootScope.hideLoading();
             }, 2999);
         }
 
-        $rootScope.hideLoading = function () {
+        $rootScope.hideLoading = function() {
+            console.log("HideLoading...");
             $ionicLoading.hide();
         };
 
-        $rootScope.toast = function (msg) {
+        $rootScope.toast = function(msg) {
             $rootScope.showLoading(msg);
-            $timeout(function () {
+            $timeout(function() {
                 $rootScope.hideLoading();
             }, 2999);
         };
     })
 
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function($stateProvider, $urlRouterProvider) {
 
         // Ionic uses AngularUI Router which uses the concept of states
         // Learn more here: https://github.com/angular-ui/ui-router
@@ -44,7 +48,18 @@ angular.module('app.routes', ['app.factories'])
                 views: {
                     'tab1': {
                         templateUrl: 'templates/search.html',
-                        controller: 'searchCtrl'
+                        controller: 'searchCtrl',
+                        // resolve: {
+                        //     self: function(Authorization) {
+                        //         // load the user before the view is loaded
+                        //         return Authorization;
+                        //     }
+                        // }
+                        resolve: {
+                            resolveSelf: function(AuthLogin) {
+                                return AuthLogin.getCurrentUser();
+                            }
+                        }
                     }
                 }
             })
@@ -53,7 +68,6 @@ angular.module('app.routes', ['app.factories'])
                 views: {
                     'tab2': {
                         templateUrl: 'templates/chat.html',
-                        controller: 'chatCtrl'
                     }
                 }
             })
@@ -62,7 +76,6 @@ angular.module('app.routes', ['app.factories'])
                 views: {
                     'tab3': {
                         templateUrl: 'templates/favorite.html',
-                        controller: 'favoriteCtrl'
                     }
                 }
             })
@@ -70,14 +83,12 @@ angular.module('app.routes', ['app.factories'])
                 url: '',
                 abstract: true,
                 templateUrl: 'templates/tabsController.html',
-                //controller: 'tabCtrl'
             })
             .state('tabsController.me', {
                 url: '/me',
                 views: {
                     'tab4': {
                         templateUrl: 'templates/me.html',
-                        controller: 'meCtrl'
                     }
                 }
             })
@@ -86,25 +97,23 @@ angular.module('app.routes', ['app.factories'])
                 views: {
                     'tab4': {
                         templateUrl: 'templates/profile.html',
-                        controller: 'profileCtrl'
                     }
                 }
             })
-            .state('tabsController.name', {
-                url: '/name',
-                views: {
-                    'tab4': {
-                        templateUrl: 'templates/name.html',
-                        controller: 'nameCtrl'
-                    }
-                }
+            .state('user', {
+                url: '/user/:userId',
+                templateUrl: 'templates/user.html',
+                // views: {
+                //     'tab1': {
+                        
+                //     }
+                // }
             })
             .state('tabsController.gender', {
                 url: '/gender',
                 views: {
                     'tab4': {
                         templateUrl: 'templates/gender.html',
-                        controller: 'genderCtrl'
                     }
                 }
             })
@@ -113,7 +122,6 @@ angular.module('app.routes', ['app.factories'])
                 views: {
                     'tab4': {
                         templateUrl: 'templates/settings.html',
-                        controller: 'settingsCtrl'
                     }
                 }
             })
@@ -122,19 +130,20 @@ angular.module('app.routes', ['app.factories'])
                 views: {
                     'tab4': {
                         templateUrl: 'templates/age.html',
-                        controller: 'ageCtrl'
                     }
                 }
             })
             .state('login', {
                 url: '/login',
                 templateUrl: 'templates/login.html',
-                controller: 'loginCtrl'
+            })
+            .state('imageopopover', {
+                url: '/imageopopover',
+                templateUrl: 'templates/image-opopover.html',
             })
             .state('signup', {
                 url: '/signup',
                 templateUrl: 'templates/signup.html',
-                controller: 'signupCtrl'
             });
 
         // if none of the above states are matched, use this as the fallback

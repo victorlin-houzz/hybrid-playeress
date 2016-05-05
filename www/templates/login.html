@@ -1,18 +1,23 @@
-<ion-view title="Login">
-    <ion-content overflow-scroll="true" padding="true" class="has-header">
+<ion-view>
+    <ion-content overflow-scroll="true" padding="true" class="" style="background-color: rgb(255, 174, 201);" ng-controller="loginCtrl">
         <form class="list">
+            <div style="text-align: center;">
+                <img class="icon ion-image" src="img/logo.png" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></img>
+            </div>
             <ion-list>
                 <label class="item item-input">
-                    <span class="input-label">Username</span>
-                    <input type="text" placeholder="you@domain.com" ng-model="data.email">
+                    <span class="input-label">Email</span>
+                    <input type="text" placeholder="you@domain.com" ng-model="user.email">
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Password</span>
-                    <input type="password" placeholder="enter your password..." ng-model="data.password">
+                    <input type="password" placeholder="enter your password..." ng-model="user.password">
                 </label>
+                <button class="button button-assertive button-block " ng-click="loginEmail()">Login</button>
             </ion-list>
-            <div class="spacer" style="height: 40px;"></div>
-            <button class="button button-assertive button-block " ng-click="loginEmail()">Login</button>
+            
+            <!--<div class="spacer" style="height: 40px;"></div>-->
+            
             <a class="button button-positive button-block " ng-click="loginFacebook()">Facebook Login</a>
             <a ui-sref="signup" class="button button-positive button-clear button-block ">Or create an account</a>
         </form>

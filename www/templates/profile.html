@@ -1,16 +1,71 @@
-<ion-view title="Profile">
+<ion-view ng-controller="ProfileCtrl as pCtrl" title="{{pCtrl.id}}">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <ion-list></ion-list>
-        <div style="line-height: 250px; border: 1px solid rgb(238, 238, 238); border-radius: 3px; text-align: center; background-color: rgb(255, 255, 255);">
-            <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
-        </div>
-        <div style="line-height: 250px; border: 1px solid rgb(238, 238, 238); border-radius: 3px; text-align: center; background-color: rgb(255, 255, 255);">
-            <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
-        </div>
-        <ion-list>
-            <ion-item ui-sref="tabsController.name">Name</ion-item>
-            <ion-item ui-sref="tabsController.gender">Gender</ion-item>
-            <ion-item ui-sref="tabsController.age">Age</ion-item>
-        </ion-list>
+        <form class="list">
+
+            <ion-item class="item-divider">基本資料</ion-item>
+            <label class="item item-input" name="userID">
+                <span class="input-label">暱稱</span>
+                <input type="text" placeholder="" ng-model="pCtrl.id"  ng-change="pCtrl.setId()">{{pCtrl.id}}
+            </label>
+            <!--<ion-item ui-sref="tabsController.name" ng-model="pCtrl.id">使用者ID {{pCtrl.id}}</ion-item>-->
+            <ion-item class="range range-positive">年齡
+                <input type="range" value="25" min="18" max="100" name="age" ng-model="pCtrl.age" ng-change="pCtrl.setAge()"> {{pCtrl.age}}
+            </ion-item>
+
+            <ion-item class="range range-positive">身高
+                <input type="range" value="160" min="60" max="270" name="height" ng-model="pCtrl.height" ng-change="pCtrl.setHeight()"> {{pCtrl.height}}cm
+            </ion-item>
+            <label class="item item-select" name="gender">
+                <span class="input-label">性別</span>
+                <select ng-model="pCtrl.gender" ng-change=" pCtrl.setGender()">
+                    <option>Playress</option>
+                    <option>Player</option>
+                </select>
+            </label>
+            <label class="item item-select" name="bodyType" id="bodyType">
+                <span class="input-label">體型</span>
+                <select ng-model="pCtrl.bodyType" ng-change=" pCtrl.setBodyType()">
+                    <option ng-repeat="value in pCtrl.bodyTypes">{{value}}</option>
+                </select>
+            </label>
+            <label class="item item-select" name="SmokingHabit">
+                <span class="input-label">抽煙習慣</span>
+                <select ng-model="pCtrl.smokingHabit" ng-change=" pCtrl.setSmokingHabit()">
+                    <option ng-repeat="value in pCtrl.smokingHabits">{{value}}</option>
+                </select>
+            </label>
+            <label class="item item-select" name="DrinkingHabit">
+                <span class="input-label">喝酒習慣</span>
+                <select ng-model="pCtrl.drinkingHabit" ng-change=" pCtrl.setDrinkingHabit()">
+                    <option ng-repeat="value in pCtrl.drinkingHabits">{{value}}</option>
+                </select>
+            </label>
+            <label class="item item-select" name="City">
+                <span class="input-label">所在地</span>
+                <select ng-model="pCtrl.city" ng-change=" pCtrl.setCity()">
+                    <option ng-repeat="value in pCtrl.citys">{{value}}</option>
+                </select>
+            </label>
+            <!--<label class="item item-select" name="LikeGender">
+                <span class="input-label">感興趣的對象</span>
+                <select>
+                    <option ng-repeat="value in pCtrl.likeGender">{{value}}</option>
+                </select>
+            </label>-->
+            <label class="item item-input">
+                <span class="input-label">關於我</span>
+                <textarea name="MyDes" id="MyDes" placeholder="你想知道我什麼呢?" rows="5" ng-required="required" ng-model="pCtrl.myDes" ng-change=" pCtrl.setMyDes()"> {{pCtrl.myDes}}</textarea>
+            </label>
+            <div role="alert">
+                <span class="error" ng-show="list.MyDes.$error.required">Required!!!</span>
+            </div>
+            <ion-item class="item-divider" ng-model="pCtrl.wishType"><br>懸賞金</ion-item>
+            <ion-item class="range range-positive">
+                <input type="range" value="1000" min="100" max="100000" name="bounty" step="100" ng-model="pCtrl.bounty" ng-change="pCtrl.setBounty()"> {{pCtrl.bounty}}  
+                <select ng-model="pCtrl.bountyUnit" ng-change=" pCtrl.setBountyUnit()">
+                    <option ng-repeat="value in pCtrl.bountyUnits">{{value}}</option>
+                </select>
+            </ion-item>
+        </form>
     </ion-content>
 </ion-view>
