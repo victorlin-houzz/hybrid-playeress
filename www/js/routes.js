@@ -1,7 +1,7 @@
 angular.module('app.routes', ['app.factories'])
-    .run(function($rootScope, $state, Authorization, $ionicLoading, $timeout) {
+    .run(function ($rootScope, $state, Authorization, $ionicLoading, $timeout) {
         // Listen to '$locationChangeSuccess', not '$stateChangeStart'
-        $rootScope.$on('$locationChangeSuccess', function() {
+        $rootScope.$on('$locationChangeSuccess', function () {
             // any time auth status updates, add the user data to scope
             console.log("Changing state to: " + $state.current.name + "  " + Authorization.isAuthenticated + "; auth: " + $rootScope.authData);
             if (!$rootScope.authData) {
@@ -9,7 +9,7 @@ angular.module('app.routes', ['app.factories'])
                 // $state.go('login');
             }
         })
-        $rootScope.showLoading = function(msg) {
+        $rootScope.showLoading = function (msg) {
             console.log("ShowLoading...");
             $ionicLoading.show({
                 template: msg || 'Loading',
@@ -18,25 +18,25 @@ angular.module('app.routes', ['app.factories'])
                 maxWidth: 200,
                 showDelay: 0
             });
-            $timeout(function() {
+            $timeout(function () {
                 $rootScope.hideLoading();
             }, 2999);
         }
 
-        $rootScope.hideLoading = function() {
+        $rootScope.hideLoading = function () {
             console.log("HideLoading...");
             $ionicLoading.hide();
         };
 
-        $rootScope.toast = function(msg) {
+        $rootScope.toast = function (msg) {
             $rootScope.showLoading(msg);
-            $timeout(function() {
+            $timeout(function () {
                 $rootScope.hideLoading();
             }, 2999);
         };
     })
 
-    .config(function($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider) {
 
         // Ionic uses AngularUI Router which uses the concept of states
         // Learn more here: https://github.com/angular-ui/ui-router
@@ -56,7 +56,7 @@ angular.module('app.routes', ['app.factories'])
                         //     }
                         // }
                         resolve: {
-                            resolveSelf: function(AuthLogin) {
+                            resolveSelf: function (AuthLogin) {
                                 return AuthLogin.getCurrentUser();
                             }
                         }
@@ -88,7 +88,7 @@ angular.module('app.routes', ['app.factories'])
                 url: '/me',
                 views: {
                     'tab4': {
-                        templateUrl: 'templates/me.html',
+                        templateUrl: 'templates/me/me.html',
                     }
                 }
             })
@@ -96,7 +96,7 @@ angular.module('app.routes', ['app.factories'])
                 url: '/profile',
                 views: {
                     'tab4': {
-                        templateUrl: 'templates/profile.html',
+                        templateUrl: 'templates/me/profile.html',
                     }
                 }
             })
@@ -105,37 +105,21 @@ angular.module('app.routes', ['app.factories'])
                 templateUrl: 'templates/user.html',
                 // views: {
                 //     'tab1': {
-                        
+
                 //     }
                 // }
-            })
-            .state('tabsController.gender', {
-                url: '/gender',
-                views: {
-                    'tab4': {
-                        templateUrl: 'templates/gender.html',
-                    }
-                }
             })
             .state('tabsController.settings', {
                 url: '/settings',
                 views: {
                     'tab4': {
-                        templateUrl: 'templates/settings.html',
-                    }
-                }
-            })
-            .state('tabsController.age', {
-                url: '/age',
-                views: {
-                    'tab4': {
-                        templateUrl: 'templates/age.html',
+                        templateUrl: 'templates/me/settings.html',
                     }
                 }
             })
             .state('login', {
                 url: '/login',
-                templateUrl: 'templates/login.html',
+                templateUrl: 'templates/login/login.html',
             })
             .state('imageopopover', {
                 url: '/imageopopover',
@@ -143,7 +127,7 @@ angular.module('app.routes', ['app.factories'])
             })
             .state('signup', {
                 url: '/signup',
-                templateUrl: 'templates/signup.html',
+                templateUrl: 'templates/login/signup.html',
             });
 
         // if none of the above states are matched, use this as the fallback
